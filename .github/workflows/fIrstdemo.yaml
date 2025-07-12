@@ -1,0 +1,39 @@
+name: SonarQube Code Analysis
+
+on:
+  pull_request:
+    branches:
+      - develop
+  workflow_dispatch:
+
+jobs:
+  sonar:
+    if: startsWith(github.head_ref, 'feature/')  # Run only if PR is from `feature/**`
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: maven
+
+      - name: Build and Test
+        run: mvn clean verify
+      
+      - name: Run Tests
+        run: mvn verify jacoco:report
+
+      - name: Run SonarQube Scanner
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: "http://192.168.137.1:9000"
+        run: |
+          mvn sonar:sonar \
+            -Dsonar.projectKey=sonardemo \
+            -Dsonar.host.url=$SONAR_HOST_URL \
+            -Dsonar.login=$SONAR_TOKEN
