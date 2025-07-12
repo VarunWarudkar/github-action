@@ -1,20 +1,27 @@
 name: First Demo
 
-on: 
+ 
+
+on:
+
   workflow_dispatch:
 
+ 
+
 jobs:
+
   build:
-        runs-on: ubuntu-latest # use lab for self-hosted runner
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v4
 
-            - name: Installing Java
-              run: sudo apt-get install openjdk-11-jdk -y
-            
-            - name: Compling Code
-              run: echo "Compiling Code" 
+    runs-on: ubuntu-latest
 
-            - name: Test Code
-              run: echo "Test Code" 
+    steps:
+
+      - name: Checkout Code
+
+        uses: actions/checkout@v4
+
+      
+
+      - name: Build
+
+        run: echo "Build Code"
