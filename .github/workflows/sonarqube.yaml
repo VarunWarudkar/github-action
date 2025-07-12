@@ -31,10 +31,10 @@ jobs:
       - name: Run SonarQube Scanner
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: "https://sonarcloud.io"
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         run: |
           mvn sonar:sonar \
-            -Dsonar.projectKey=sonardemo \
-            -Dsonar.organization=vcjain \
+            -Dsonar.projectKey=sonar-demo \
+            #-Dsonar.organization=vcjain \
             -Dsonar.host.url=$SONAR_HOST_URL \
             -Dsonar.login=$SONAR_TOKEN
